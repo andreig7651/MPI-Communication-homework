@@ -1,0 +1,16 @@
+Gavriliu Andrei-Mihai 333CB
+
+Am rezolvat task-urile 1 si 3 in acelasi timp. Datele circula in ordinea 0->3->2->1, apoi 1->2->3->0, practic e un inel dublu.
+Citesc datele din cluster_file si stochez intr-un vector dimensiunile fiecarui coordonator, iar intr-un vector de vectori stochez topologia.
+Initial, fiecare coordonator isi cunoaste topologia proprie
+In cazul proceselor coordonator, logica este urmatoarea, in ordinea anterior precizata, ele trimit datele urmatorului proces(vecinului) si
+asteapta de la acesta datele pe care le va colecta de la nodul urmator. Astfel, toate datele vor fi stranse in nodul 1, care le va trimite inapoi 
+pana in 0.
+In acelasi timp, fiecare coordonator va trimite datele colectate la workeri. Trimit la worker parintele, rankul coordonatorului, apoi trimit toata
+topologia cunoscuta de coordonator.
+In cazul proceselor worker, ele primesc topologia de la parinte si o afiseaza.
+
+Pentru a rezolva calculele de la task 2, initial creez vectorul dupa formula data. Apoi, pentru fiecare coordonator, impart aproximativ egal sarcinile si 
+creez 2 vectori, cu indici de start si end. Acestia vor fi din nou impartiti de fiecare worker. Incep de pe procesul 0, trimit datele la proprii workeri si astept procesarea lor. Apoi le trimit prelucrate la 
+vecin, adica 3 si astept o noua prelucrare a lor. In final, afisez pe 0 vectorul prelucrat. Ceilalti workeri folosesc aceeasi logica, primesc date de la procesul anterior, le prelucreaza pe workerii proprii, apoi le trimit la urmatorul proces si asteapta raspuns de la el. Dupa ce primesc raspuns, trimit rezultatul la anterior.
+Fiecare worker isi calculeaza un indice de start si de end, apoi incepe prelucrarea partii sale din vector. In final, toate datele ajung la coordonatorul 0, care afiseaza rezultatul
